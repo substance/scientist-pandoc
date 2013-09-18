@@ -103,7 +103,7 @@
     {
       "repository": "https://github.com/substance/scientist.git",
       "folder": ".",
-      "branch": "0.1.x"
+      "branch": "chromeapp"
     }
   ],
   "node_modules": {
