@@ -145,16 +145,13 @@ app.get('/:collection/:doc/index.json', function(req, res) {
       output.nodes.document.guid = docId;
 
       if (err) return res.send(500, err);
-      lensify(output);
+      // lensify(output);
       res.send(output);
     });
   } catch (err) {
-    try {
-      var filename = __dirname + "/docs/"+collection+"/"+docId+"/index.json";
-      var inputData = fs.readFileSync(filename, 'utf8');
-      res.send(inputData);
-    }
-    
+    var filename = __dirname + "/docs/"+collection+"/"+docId+"/index.json";
+    var inputData = fs.readFileSync(filename, 'utf8');
+    res.send(inputData);
   }
 });
 

@@ -8,7 +8,8 @@ var Test = require("substance-test");
 var Library = require("substance-library");
 var LibraryController = Library.Controller;
 var ReaderController = require("lens-reader").Controller;
-var Article = require("lens-article");
+var LensArticle = require("lens-article");
+var Article = require("substance-article");
 // var Chronicle = require("substance-chronicle");
 var Converter = require("lens-converter");
 
@@ -145,7 +146,7 @@ LensController.Prototype = function() {
   // Transitions
   // ===================================
 
-  var _LOCALSTORE_MATCHER = new RegExp("^localstore://(.*)");
+  // var _LOCALSTORE_MATCHER = new RegExp("^localstore://(.*)");
 
   var _open = function(state, documentId) {
 
@@ -177,44 +178,54 @@ LensController.Prototype = function() {
     // prefering option2 as it is simpler to achieve...
 
     var record = this.__library.get(documentId);
-    var match = _LOCALSTORE_MATCHER.exec(record.url);
+    // var match = _LOCALSTORE_MATCHER.exec(record.url);
 
-    if (match) {
-      var docId = match[1];
+    // if (match) {
+    //   var docId = match[1];
 
-      var docData = JSON.parse(localStorage.getItem("localdoc"));
-      var doc = Article.fromSnapshot(docData, {
-          // chronicle: Chronicle.create()
-        });
-      _onDocumentLoad(null, doc);
-    } else {
-      $.get(record.url)
-      .done(function(data) {
-          var doc, err;
+    //   var docData = JSON.parse(localStorage.getItem("localdoc"));
+    //   var doc = Article.fromSnapshot(docData);
+    //   _onDocumentLoad(null, doc);
+    // } else {
+    $.get(record.url)
+    .done(function(data) {
+        var doc, err;
 
-          // Determine type of resource
-          var xml = $.isXMLDoc(data);
+        // Determine type of resource
+        var xml = $.isXMLDoc(data);
 
-          // Process XML file
-          if(xml) {
-            var importer = new Converter.Importer();
-            doc = importer.import(data);
+        // Process XML file
+        if(xml) {
+          var importer = new Converter.Importer();
+          doc = importer.import(data);
 
-            // Hotpatch the doc id, so it conforms to the id specified in the library file
-            doc.id = documentId;
-            console.log('ON THE FLY CONVERTED DOC', doc.toJSON());
+          // Hotpatch the doc id, so it conforms to the id specified in the library file
+          doc.id = documentId;
+          console.log('ON THE FLY CONVERTED DOC', doc.toJSON());
 
-          // Process JSON file
+        // Process JSON file
+        } else {
+          if(typeof data == 'string') data = $.parseJSON(data);
+
+
+          if (data.schema && data.schema[0] === "lens-article") {
+            console.log('lens article');
+            var Article = require("lens-article");
+            doc = Article.fromSnapshot(data);
           } else {
-            if(typeof data == 'string') data = $.parseJSON(data);
+            console.log('substance article');
+            var Article = require("substance-article");
             doc = Article.fromSnapshot(data);
           }
-          _onDocumentLoad(err, doc);  
-        })
-      .fail(function(err) {
-        console.error(err);
-      });
-    }
+
+          // doc = Article.fromSnapshot(data);
+        }
+        _onDocumentLoad(err, doc);  
+      })
+    .fail(function(err) {
+      console.error(err);
+    });
+    // }
   };
 
   this.openReader = function(collectionId, documentId, context, node, resource, fullscreen) {
@@ -250,7 +261,6 @@ LensController.Prototype = function() {
 
     var doc = Article.describe();
     this.reader = new ReaderController(doc, state);
-    that.reader = new ReaderController(doc, state);
 
     // Trigger URL Fragment update on every state change
     that.reader.on('state-changed', function() {
