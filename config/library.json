@@ -1,35 +1,31 @@
 {
-    "nodes": {
-        "library": {
-            "collections": [
-                "elife",
-                "examples",
-                "landes",
-                "lens",
-                "mydocs"
-            ], 
-            "type": "library", 
-            "name": "Lens development resources"
-        },
-        "00571": {
-            "url": "https://s3.amazonaws.com/elife-cdn/elife-articles/00571/elife00571.xml", 
-            "authors": [
-                "Needleman"
-            ], 
-            "id": "00571", 
-            "title": "Developing cell biology"
-        },
-
-        "lens": {
-          "id": "lens",
-          "name": "Lens Documentation",
-          "type": "collection",
-          "records": ["about", "manual", "lorem_ipsum", "lens_article"]
-        }
+  "nodes": {
+    "library": {
+      "collections": [
+        "examples"
+      ], 
+      "type": "library", 
+      "name": "Lens development resources"
     },
-    "id": "lens_library", 
-    "schema": [
-        "substance-library", 
-        "0.1.0"
-    ]
+    "doc_3": {
+      "id": "doc_3",
+      "url": "docs/examples/doc_3/index.json", 
+      "authors": [
+        "Unknown"
+      ],
+      "title": "Doc_3"
+    },
+
+    "examples": {
+      "id": "examples",
+      "name": "Example Documents",
+      "type": "collection",
+      "records": ["doc_3"]
+    }
+  },
+  "id": "lens_library", 
+  "schema": [
+    "substance-library", 
+    "0.1.0"
+  ]
 }

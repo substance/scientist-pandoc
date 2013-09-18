@@ -6,7 +6,65 @@ var LensController = require("./lens_controller");
 var Keyboard = require("substance-commander").Keyboard;
 var util = require("substance-util");
 var html = util.html;
-var DEFAULT_CONFIG = require("../config/config.json");
+
+// var DEFAULT_CONFIG = require("../config/config.json");
+var DEFAULT_CONFIG = {
+  "env": "development",
+  "library_url": "config/library.json"
+};
+
+var ROUTES = [
+  {
+    "route": ":collection/:document/:context/:node/:resource/:fullscreen",
+    "name": "document-resource",
+    "command": "openReader"
+  },
+  {
+    "route": ":collection/:document/:context/:node/:resource",
+    "name": "document-resource",
+    "command": "openReader"
+  },
+  {
+    "route": ":collection/:document/:context/:node/:resource",
+    "name": "document-resource",
+    "command": "openReader"
+  },
+  {
+    "route": ":collection/:document/:context/:node",
+    "name": "document-node", 
+    "command": "openReader"
+  },
+  {
+    "route": ":collection/:document/:context",
+    "name": "document-context",
+    "command": "openReader"
+  },
+  {
+    "route": ":collection/:document", 
+    "name": "document",
+    "command": "openReader"
+  },
+  {
+    "route": ":collection",
+    "name": "library",
+    "command": "openLibrary"
+  },
+  {
+    "route": "",
+    "name": "library",
+    "command": "openLibrary"
+  },
+  {
+    "route": "tests",
+    "name": "tests",
+    "command": "openTestCenter"
+  },
+  {
+    "route": "tests/:suite",
+    "name": "tests",
+    "command": "openTestCenter"
+  }
+];
 
 // The Lens Application
 // ========
@@ -14,7 +72,7 @@ var DEFAULT_CONFIG = require("../config/config.json");
 
 var Lens = function(config) {
   config = config || DEFAULT_CONFIG;
-  config.routes = require("../config/routes.json");
+  config.routes = ROUTES; // require("../config/routes.json");
   Application.call(this, config);
 
   this.controller = new LensController(config);
@@ -34,7 +92,6 @@ Lens.Prototype = function() {
     this.$el.html(this.view.render().el);
   }
 };
-
 
 
 Lens.Prototype.prototype = Application.prototype;
@@ -59,16 +116,16 @@ var Substance = {
 // --------
 // 
 
-require("lens-converter/tests");
-require("substance-application/tests");
-require("substance-converter/tests");
-require("substance-operator/tests");
-require("substance-chronicle/tests");
-require("substance-data/tests");
-require("substance-document/tests");
+// require("lens-converter/tests");
+// require("substance-application/tests");
+// require("substance-converter/tests");
+// require("substance-operator/tests");
+// require("substance-chronicle/tests");
+// require("substance-data/tests");
+// require("substance-document/tests");
 // require("substance-article/tests");
-require("substance-store/tests");
-require("substance-surface/tests");
+// require("substance-store/tests");
+// require("substance-surface/tests");
 
 Lens.Substance = Substance;
 

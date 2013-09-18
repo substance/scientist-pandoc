@@ -10,7 +10,6 @@ var LibraryController = Library.Controller;
 var ReaderController = require("lens-reader").Controller;
 var LensArticle = require("lens-article");
 var Article = require("substance-article");
-// var Chronicle = require("substance-chronicle");
 var Converter = require("lens-converter");
 
 // Lens.Controller
@@ -54,7 +53,7 @@ LensController.Prototype = function() {
 
     try {
       localStorage.setItem("localdoc", JSON.stringify(doc));
-    }catch (e) {
+    } catch (e) {
       console.log(e);
     }
 

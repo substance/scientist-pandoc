@@ -3,6 +3,7 @@
   "name": "Substance Scientist",
   "version": "1",
   "minimum_chrome_version": "29",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "16": "icon_16.png",
     "128": "icon_128.png"

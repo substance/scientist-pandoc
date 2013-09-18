@@ -136,7 +136,20 @@ LensView.Prototype = function() {
   };
 
   this.render = function() {
-    this.$el.html(html.tpl('lens', this.controller.session));
+    // this.$el.html(html.tpl('lens', this.controller.session));
+
+    var html = [
+      '<div id="menu">',
+        '<div class="site-title">Lens</div>',
+        '<div class="site-subtitle">Digital content viewer</div>',
+        '<div class="views">',
+          '<a href="#examples" class="toggle-view examples">Docs</a>',
+        '</div>',
+      '</div>',
+      '<div id="main">',
+      '</div>'
+    ].join('');
+    this.$el.html(html);
     return this;
   };
 
